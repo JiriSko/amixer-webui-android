@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="vertical"
+	android:paddingBottom="0dp"
+	android:paddingLeft="8dp"
+	android:paddingRight="8dp"
+	android:paddingTop="6dp">
+
+	<android.support.v7.widget.CardView xmlns:app="http://schemas.android.com/apk/res-auto"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		app:cardCornerRadius="0dp"
+		app:cardElevation="2dp"
+		app:cardUseCompatPadding="true">
+
+		<LinearLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="vertical">
+
+			<RelativeLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@color/colorPrimaryDark"
+				android:padding="8dp">
+
+				<Switch
+					android:id="@+id/enabled"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="-4dp"
+					android:paddingRight="4dp"
+					android:text="" />
+
+				<TextView
+					android:id="@+id/name"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_alignParentTop="true"
+					android:layout_toEndOf="@+id/enabled"
+					android:layout_toRightOf="@+id/enabled"
+					android:text="Control name"
+					android:textColor="@android:color/white"
+					android:textIsSelectable="false"
+					android:textSize="20sp" />
+
+				<CheckBox
+					android:id="@+id/bind_sliders"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_alignParentEnd="true"
+					android:layout_alignParentRight="true"
+					android:layout_centerVertical="true"
+					android:checked="true"
+					android:text="" />
+			</RelativeLayout>
+
+			<RadioGroup
+				android:id="@+id/source_list"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@android:color/white"
+				android:gravity="center"
+				android:orientation="horizontal"
+				android:paddingLeft="2dp"
+				android:paddingRight="2dp" />
+
+			<LinearLayout
+				android:id="@+id/channels_list"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:background="@android:color/white"
+				android:orientation="vertical" />
+
+		</LinearLayout>
+
+	</android.support.v7.widget.CardView>
+
+</LinearLayout>

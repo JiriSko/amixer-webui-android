@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/control_channel"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:orientation="horizontal"
+	android:paddingLeft="8dp"
+	android:paddingRight="8dp"
+	android:paddingTop="4dp"
+	android:paddingBottom="4dp">
+
+	<TextView
+		android:id="@+id/channel_name"
+		android:layout_width="100dp"
+		android:layout_height="wrap_content"
+		android:text="Channel" />
+
+	<SeekBar
+		android:id="@+id/channel_volume_seek_bar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:clickable="false" />
+
+	<TextView
+		android:id="@+id/channel_volume"
+		android:layout_width="45dp"
+		android:layout_height="wrap_content"
+		android:gravity="right"
+		android:text="100 %" />
+</LinearLayout>

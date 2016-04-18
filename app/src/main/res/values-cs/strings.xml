@@ -1,0 +1,27 @@
+<resources>
+	<string name="action_settings">Nastavení</string>
+	<string name="title_activity_settings">Nastavení</string>
+
+	<string name="msg_downloading_canceled">Stahování přerušeno</string>
+	<string name="msg_connection_error">Spojení selhalo!</string>
+	<string name="retry_btn_title">Opakovat</string>
+
+	<string name="bound_sliders">Kanály jsou svázány.</string>
+	<string name="unbounded_sliders">Kanály nejsou svázány.</string>
+
+
+	<!-- Strings related to Settings -->
+
+	<!-- Example settings for Connection -->
+	<string name="pref_header_connection">Připojení</string>
+
+	<string name="pref_title_ip_address">IP adresa</string>
+	<string name="pref_title_port">Port</string>
+
+
+	<!-- Example settings for About -->
+	<string name="pref_header_about">O aplikaci</string>
+
+	<string name="pref_title_author">Autor</string>
+	<string name="pref_title_version">Verze</string>
+</resources>
