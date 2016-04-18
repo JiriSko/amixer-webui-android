@@ -27,13 +27,4 @@ public class RetrieveControlsHttpRequestTask extends AsyncHttpRequestTask
 	{
 		return downloadFromURL("/controls/");
 	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	protected void onPostExecute(String result)
-	{
-		super.onPostExecute(result);
-	}
 }
