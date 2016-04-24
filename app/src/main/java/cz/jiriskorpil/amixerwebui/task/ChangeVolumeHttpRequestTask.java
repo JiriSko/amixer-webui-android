@@ -1,15 +1,15 @@
 package cz.jiriskorpil.amixerwebui.task;
 
-import android.app.Activity;
+import android.content.Context;
 
 /**
  * Asynchronous task for sending request to change volumes of specific control.
  */
 public class ChangeVolumeHttpRequestTask extends AsyncHttpRequestTask
 {
-	public ChangeVolumeHttpRequestTask(Activity activity, String url)
+	public ChangeVolumeHttpRequestTask(Context context, String url)
 	{
-		super(activity, url);
+		super(context, url);
 	}
 
 	/**

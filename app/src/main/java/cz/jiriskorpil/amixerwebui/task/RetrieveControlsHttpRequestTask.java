@@ -1,21 +1,21 @@
 package cz.jiriskorpil.amixerwebui.task;
 
-import android.app.Activity;
+import android.content.Context;
 
 /**
  * Asynchronous task for retrieving controls from server while user is waiting on progress dialog.
  */
 public class RetrieveControlsHttpRequestTask extends AsyncHttpRequestTask
 {
-	public RetrieveControlsHttpRequestTask(Activity activity, String url)
+	public RetrieveControlsHttpRequestTask(Context context, String url)
 	{
-		super(activity, url);
+		super(context, url);
 	}
 
-	public RetrieveControlsHttpRequestTask(Activity activity, String url, AsyncCallback callback)
+	public RetrieveControlsHttpRequestTask(Context context, String url, OnFinishListener listener)
 	{
-		this(activity, url);
-		this.callback = callback;
+		this(context, url);
+		this.mOnFinishListener = listener;
 	}
 
 	/**

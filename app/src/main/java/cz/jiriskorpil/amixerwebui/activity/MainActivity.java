@@ -2,11 +2,14 @@ package cz.jiriskorpil.amixerwebui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ListView;
 
 import cz.jiriskorpil.amixerwebui.R;
@@ -30,6 +33,26 @@ public class MainActivity extends AppCompatActivity
 		dataHandler = (new DataHandler(this,
 					(ListView) findViewById(R.id.controls_list),
 					(SwipeRefreshLayout) findViewById(R.id.swipe_container)))
+				.setOnFailListener(new DataHandler.OnFailListener()
+				{
+					@Override
+					public void onFail()
+					{
+						Snackbar
+								.make(findViewById(android.R.id.content),
+										getResources().getString(R.string.msg_connection_error),
+										Snackbar.LENGTH_LONG)
+								.setAction(getResources().getString(R.string.retry_btn_title), new View.OnClickListener()
+								{
+									@Override
+									public void onClick(View v)
+									{
+										dataHandler.download();
+									}
+								}).setActionTextColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight))
+								.show();
+					}
+				})
 				.download();
 		lastUrl = dataHandler.getBaseUrl();
 	}

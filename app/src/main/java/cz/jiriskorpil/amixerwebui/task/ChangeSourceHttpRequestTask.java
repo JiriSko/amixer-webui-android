@@ -1,15 +1,15 @@
 package cz.jiriskorpil.amixerwebui.task;
 
-import android.app.Activity;
+import android.content.Context;
 
 /**
  * Asynchronous task for sending request to change source of specific control.
  */
 public class ChangeSourceHttpRequestTask extends AsyncHttpRequestTask
 {
-	public ChangeSourceHttpRequestTask(Activity activity, String url)
+	public ChangeSourceHttpRequestTask(Context context, String url)
 	{
-		super(activity, url);
+		super(context, url);
 	}
 
 	/**

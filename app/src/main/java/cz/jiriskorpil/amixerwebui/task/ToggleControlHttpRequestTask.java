@@ -1,15 +1,15 @@
 package cz.jiriskorpil.amixerwebui.task;
 
-import android.app.Activity;
+import android.content.Context;
 
 /**
  * Asynchronous task for sending request to turn on/off specific control.
  */
 public class ToggleControlHttpRequestTask extends AsyncHttpRequestTask
 {
-	public ToggleControlHttpRequestTask(Activity activity, String url)
+	public ToggleControlHttpRequestTask(Context context, String url)
 	{
-		super(activity, url);
+		super(context, url);
 	}
 
 	/**

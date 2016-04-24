@@ -1,13 +1,10 @@
 package cz.jiriskorpil.amixerwebui.activity;
 
-import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
-import android.view.View;
 import android.widget.ListView;
 
 import org.json.JSONArray;
@@ -23,7 +20,7 @@ import cz.jiriskorpil.amixerwebui.control.ControlContainerAdapter;
 import cz.jiriskorpil.amixerwebui.control.ControlContainerType;
 import cz.jiriskorpil.amixerwebui.control.ControlFactory;
 import cz.jiriskorpil.amixerwebui.control.mixer.MixerControl;
-import cz.jiriskorpil.amixerwebui.task.AsyncCallback;
+import cz.jiriskorpil.amixerwebui.task.AsyncHttpRequestTask;
 import cz.jiriskorpil.amixerwebui.task.RetrieveControlsHttpRequestTask;
 
 /**
@@ -31,7 +28,8 @@ import cz.jiriskorpil.amixerwebui.task.RetrieveControlsHttpRequestTask;
  */
 public class DataHandler
 {
-	Activity activity;
+	Context context;
+	OnFailListener mOnFailListener;
 
 	/* GUI components */
 	ListView listView;
@@ -39,13 +37,13 @@ public class DataHandler
 	List<ControlContainer> controls;
 
 	/**
-	 * @param activity           parent activity
+	 * @param context
 	 * @param resultListView     ListView for results
 	 * @param swipeRefreshLayout layout for results
 	 */
-	public DataHandler(Activity activity, ListView resultListView, SwipeRefreshLayout swipeRefreshLayout)
+	public DataHandler(Context context, ListView resultListView, SwipeRefreshLayout swipeRefreshLayout)
 	{
-		this.activity = activity;
+		this.context = context;
 		this.listView = resultListView;
 		this.swipeRefreshLayout = swipeRefreshLayout;
 		this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
@@ -70,10 +68,10 @@ public class DataHandler
 			public void run()
 			{
 				swipeRefreshLayout.setRefreshing(true);
-				new RetrieveControlsHttpRequestTask(activity, getBaseUrl(), new AsyncCallback()
+				new RetrieveControlsHttpRequestTask(context, getBaseUrl(), new AsyncHttpRequestTask.OnFinishListener()
 				{
 					@Override
-					public void execute(String result)
+					public void onFinish(String result)
 					{
 						try {
 							displayData(result.equals("") ? null : new JSONArray(result));
@@ -87,6 +85,12 @@ public class DataHandler
 		return this;
 	}
 
+	public DataHandler setOnFailListener(OnFailListener listener)
+	{
+		mOnFailListener = listener;
+		return this;
+	}
+
 	/**
 	 * Displays downloaded data.
 	 *
@@ -97,12 +101,14 @@ public class DataHandler
 		List<ControlContainer> controls = new ArrayList<>();
 
 		if (jsonArray == null) {
-			showFailedSnackbar();
+			if (mOnFailListener != null) {
+				mOnFailListener.onFail();
+			}
 		} else {
 			controls = parseControls(jsonArray);
 		}
 
-		ControlContainerAdapter adapter = new ControlContainerAdapter(activity, R.layout.control_row, controls);
+		ControlContainerAdapter adapter = new ControlContainerAdapter(context, R.layout.control_row, controls);
 		listView.setAdapter(adapter);
 		swipeRefreshLayout.setRefreshing(false);
 	}
@@ -158,35 +164,24 @@ public class DataHandler
 	}
 
 	/**
-	 * Shows snackbar with info about download fail.
-	 */
-	private void showFailedSnackbar()
-	{
-		Snackbar
-				.make(activity.findViewById(android.R.id.content),
-						activity.getResources().getString(R.string.msg_connection_error),
-						Snackbar.LENGTH_LONG)
-				.setAction(activity.getResources().getString(R.string.retry_btn_title), new View.OnClickListener()
-				{
-					@Override
-					public void onClick(View v)
-					{
-						download();
-					}
-				}).setActionTextColor(ContextCompat.getColor(activity, R.color.colorPrimaryLight))
-				.show();
-	}
-
-	/**
 	 * Returns base url to server (http://<ipAddress>:<port>)
 	 *
 	 * @return server url
 	 */
 	public String getBaseUrl()
 	{
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		String ipAddress = preferences.getString("ip_address", activity.getResources().getString(R.string.pref_default_ip_address));
-		String port = preferences.getString("port", activity.getResources().getString(R.string.pref_default_port));
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String ipAddress = preferences.getString("ip_address", context.getResources().getString(R.string.pref_default_ip_address));
+		String port = preferences.getString("port", context.getResources().getString(R.string.pref_default_port));
 		return "http://" + ipAddress + ":" + port;
+	}
+
+
+	public interface OnFailListener
+	{
+		/**
+		 * Called when downloading failed.
+		 */
+		void onFail();
 	}
 }

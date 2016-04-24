@@ -1,6 +1,6 @@
 package cz.jiriskorpil.amixerwebui.task;
 
-import android.app.Activity;
+import android.content.Context;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -12,34 +12,34 @@ import java.net.URL;
  */
 abstract public class AsyncHttpRequestTask extends android.os.AsyncTask<String, String, String>
 {
-	protected Activity activity;
-	protected AsyncCallback callback;
+	protected Context context;
+	protected OnFinishListener mOnFinishListener;
 	protected String url;
 
 	/**
 	 * Creates new instance of asynchronous task
 	 *
-	 * @param activity parent activity
+	 * @param context
 	 * @param url      base url directing to server
 	 */
-	public AsyncHttpRequestTask(Activity activity, String url)
+	public AsyncHttpRequestTask(Context context, String url)
 	{
 		super();
-		this.activity = activity;
+		this.context = context;
 		this.url = url;
 	}
 
 	/**
 	 * Creates new instance of asynchronous task with callback after HTTP response arrives
 	 *
-	 * @param activity parent activity
+	 * @param context
 	 * @param url      base url directing to server
-	 * @param callback callback which is called after HTTP response arrives
+	 * @param listener listener which is called after HTTP response arrives
 	 */
-	public AsyncHttpRequestTask(Activity activity, String url, AsyncCallback callback)
+	public AsyncHttpRequestTask(Context context, String url, OnFinishListener listener)
 	{
-		this(activity, url);
-		this.callback = callback;
+		this(context, url);
+		this.mOnFinishListener = listener;
 	}
 
 	/**
@@ -56,8 +56,8 @@ abstract public class AsyncHttpRequestTask extends android.os.AsyncTask<String, 
 	@Override
 	protected void onPostExecute(String result)
 	{
-		if (callback != null) {
-			callback.execute(result);
+		if (mOnFinishListener != null) {
+			mOnFinishListener.onFinish(result);
 		}
 	}
 
@@ -100,12 +100,23 @@ abstract public class AsyncHttpRequestTask extends android.os.AsyncTask<String, 
 				data = in.read();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			//e.printStackTrace();
 		} finally {
 			if (urlConnection != null) {
 				urlConnection.disconnect();
 			}
 		}
 		return result;
+	}
+
+
+	public interface OnFinishListener
+	{
+		/**
+		 * Called when downloading finished.
+		 *
+		 * @param result downloaded data
+		 */
+		void onFinish(String result);
 	}
 }
