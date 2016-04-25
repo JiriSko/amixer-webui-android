@@ -14,6 +14,9 @@
 		android:id="@+id/controls_list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:paddingBottom="8dp"
+		android:clipToPadding="false"
+		android:scrollbarStyle="outsideOverlay"
 		android:divider="@android:color/transparent"
 		android:dividerHeight="0dp"
 		android:drawSelectorOnTop="true" />
