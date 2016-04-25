@@ -242,7 +242,7 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 				channel_name.setText(channel.getName());
 				channel_volume_seek_bar.setMax(channel.getControl().getMax());
 				channel_volume_seek_bar.setProgress(channel.getValue());
-				channel_volume.setText(Math.round(100 * channel.getValue() / channel.getControl().getMax()) + " %");
+				channel_volume.setText(Math.round(100 * (double) channel.getValue() / channel.getControl().getMax()) + " %");
 
 				channel_volume_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
 				{
