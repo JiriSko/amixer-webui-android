@@ -23,7 +23,7 @@
 			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
-				android:background="@color/colorPrimaryDark"
+				android:background="@color/colorAccentDark"
 				android:padding="8dp">
 
 				<Switch
@@ -54,6 +54,7 @@
 					android:layout_alignParentRight="true"
 					android:layout_centerVertical="true"
 					android:checked="true"
+					android:buttonTint="@android:color/white"
 					android:text="" />
 			</RelativeLayout>
 
