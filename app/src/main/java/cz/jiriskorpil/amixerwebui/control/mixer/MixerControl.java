@@ -22,6 +22,8 @@ public class MixerControl extends Control
 	public MixerControl(JSONObject jsonObject) throws JSONException
 	{
 		super(jsonObject);
+
+		type = ControlType.fromString(jsonObject.getString("type"));
 	}
 
 	/**

@@ -37,7 +37,7 @@ public class DataHandler
 	List<ControlContainer> controls;
 
 	/**
-	 * @param context
+	 * @param context            The context to use. Usually {@link android.app.Activity} object.
 	 * @param resultListView     ListView for results
 	 * @param swipeRefreshLayout layout for results
 	 */
@@ -130,9 +130,9 @@ public class DataHandler
 				control = ControlFactory.createControl(jsonArray.getJSONObject(i));
 				if (control instanceof MixerControl) {
 					getControlContainer(control.getName()).addControl(control);
-				} else {
+				}/* else {
 					// not supported (yet?)
-				}
+				}*/
 			}
 		} catch (JSONException e) {
 			Log.e("JSONException", "Error: " + e.toString());

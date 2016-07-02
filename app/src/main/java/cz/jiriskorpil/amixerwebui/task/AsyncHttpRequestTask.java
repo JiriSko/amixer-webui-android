@@ -19,8 +19,8 @@ abstract public class AsyncHttpRequestTask extends android.os.AsyncTask<String, 
 	/**
 	 * Creates new instance of asynchronous task
 	 *
-	 * @param context
-	 * @param url      base url directing to server
+	 * @param context The context to use. Usually {@link android.app.Activity} object.
+	 * @param url     base url directing to server
 	 */
 	public AsyncHttpRequestTask(Context context, String url)
 	{
@@ -32,7 +32,7 @@ abstract public class AsyncHttpRequestTask extends android.os.AsyncTask<String, 
 	/**
 	 * Creates new instance of asynchronous task with callback after HTTP response arrives
 	 *
-	 * @param context
+	 * @param context  The context to use. Usually {@link android.app.Activity} object.
 	 * @param url      base url directing to server
 	 * @param listener listener which is called after HTTP response arrives
 	 */

@@ -35,6 +35,12 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	private static final float FULL_VISIBILITY = 1;
 	private static final float LOW_VISIBILITY = (float) 0.4;
 
+	/**
+	 *
+	 * @param context          The context to use. Usually {@link android.app.Activity} object.
+	 * @param layoutResourceId GUI element for rendering
+	 * @param data             list of controls
+	 */
 	public ControlContainerAdapter(Context context, int layoutResourceId, List<ControlContainer> data)
 	{
 		super(context, layoutResourceId, data);
@@ -75,9 +81,9 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	/**
 	 * Setups control card.
 	 *
-	 * @param container
-	 * @param holder
-	 * @param row
+	 * @param container control container
+	 * @param holder    control container holder
+	 * @param row       GUI row View
 	 */
 	private void setupCard(ControlContainer container, ControlContainerHolder holder, View row)
 	{
@@ -92,8 +98,8 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	/**
 	 * Sets card body alpha color part based on boolean control value.
 	 *
-	 * @param container
-	 * @param holder
+	 * @param container control container
+	 * @param holder    control container holder
 	 */
 	private void setCardBodyAlpha(ControlContainer container, ControlContainerHolder holder)
 	{
@@ -113,23 +119,23 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	/**
 	 * Changes boolean control value including initialize of request to server.
 	 *
-	 * @param container
-	 * @param holder
-	 * @param isChecked
+	 * @param container control container
+	 * @param holder    control container holder
+	 * @param isChecked true if boolean control is checked else false
 	 */
 	private void toggleControl(final ControlContainer container, final ControlContainerHolder holder, boolean isChecked)
 	{
 		container.getSwitch().setChecked(isChecked);
 		setCardBodyAlpha(container, holder);
-		new ToggleControlHttpRequestTask((Activity) getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
+		new ToggleControlHttpRequestTask(getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
 				.execute(String.valueOf(container.getSwitch().getId()), container.getSwitch().isChecked() ? "1" : "0");
 	}
 
 	/**
 	 * Setups card header (Switch, TextView and CheckBox values, settings and listeners).
 	 *
-	 * @param container
-	 * @param holder
+	 * @param container control container
+	 * @param holder    control container holder
 	 */
 	private void setupCardHeader(final ControlContainer container, final ControlContainerHolder holder)
 	{
@@ -182,8 +188,8 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	/**
 	 * Setups part of cards body - source radio buttons (values, settings and listeners).
 	 *
-	 * @param container
-	 * @param holder
+	 * @param container control container
+	 * @param holder    control container holder
 	 */
 	private void setupCardBodySource(final ControlContainer container, final ControlContainerHolder holder)
 	{
@@ -203,7 +209,7 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 					public void onClick(View v)
 					{
 						container.getSource().setValue(holder.source_list.getCheckedRadioButtonId());
-						new ChangeSourceHttpRequestTask((Activity) getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
+						new ChangeSourceHttpRequestTask(getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
 								.execute(String.valueOf(container.getSource().getId()), String.valueOf(button.getId()));
 					}
 				});
@@ -218,9 +224,9 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	/**
 	 * Setups part of cards body - channels (values, settings nad listeners).
 	 *
-	 * @param container
-	 * @param holder
-	 * @param row
+	 * @param container control container
+	 * @param holder    control container holder
+	 * @param row       GUI row View
 	 */
 	private void setupCardBodyChannels(final ControlContainer container, final ControlContainerHolder holder, View row)
 	{
@@ -242,14 +248,14 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 				channel_name.setText(channel.getName());
 				channel_volume_seek_bar.setMax(channel.getControl().getMax());
 				channel_volume_seek_bar.setProgress(channel.getValue());
-				channel_volume.setText(Math.round(100 * (double) channel.getValue() / channel.getControl().getMax()) + " %");
+				channel_volume.setText(getContext().getString(R.string.channel_value, Math.round(100 * (double) channel.getValue() / channel.getControl().getMax())));
 
 				channel_volume_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
 				{
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 					{
-						String progressMsg = Math.round(100 * progress / seekBar.getMax()) + " %";
+						String progressMsg = getContext().getString(R.string.channel_value, Math.round(100 * progress / seekBar.getMax()));
 						if (fromUser && holder.bind_sliders.isChecked()) {
 							for (int i = 0; i < container.getVolume().getChannels().length; i++) {
 								if (!holder.channels_list.getChildAt(i).equals(seekBar))
@@ -286,7 +292,7 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 							}
 							volumes += String.valueOf(container.getVolume().getChannels()[i].getValue());
 						}
-						new ChangeVolumeHttpRequestTask((Activity) getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
+						new ChangeVolumeHttpRequestTask(getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
 								.execute(String.valueOf(container.getVolume().getId()), volumes);
 					}
 				});

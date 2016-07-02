@@ -10,6 +10,7 @@
 
 	<string name="bound_sliders">Channel sliders are bound.</string>
 	<string name="unbounded_sliders">Channel sliders aren\'t bound.</string>
+	<string name="channel_value">%1$d %%</string>
 
 
 	<!-- Strings related to Settings -->
