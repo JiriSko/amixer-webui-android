@@ -2,10 +2,12 @@ package cz.jiriskorpil.amixerwebui.activity;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -28,23 +30,27 @@ import cz.jiriskorpil.amixerwebui.task.RetrieveControlsHttpRequestTask;
  */
 public class DataHandler
 {
-	Context context;
-	OnFailListener mOnFailListener;
+	private Context context;
+	private OnFailListener mOnFailListener;
 
 	/* GUI components */
-	ListView listView;
-	SwipeRefreshLayout swipeRefreshLayout;
-	List<ControlContainer> controls;
+	private RecyclerView listView;
+	private SwipeRefreshLayout swipeRefreshLayout;
+	private List<ControlContainer> controls;
 
 	/**
 	 * @param context            The context to use. Usually {@link android.app.Activity} object.
 	 * @param resultListView     ListView for results
 	 * @param swipeRefreshLayout layout for results
 	 */
-	public DataHandler(Context context, ListView resultListView, SwipeRefreshLayout swipeRefreshLayout)
+	public DataHandler(Context context, RecyclerView resultListView, SwipeRefreshLayout swipeRefreshLayout)
 	{
 		this.context = context;
+
 		this.listView = resultListView;
+		this.listView.setHasFixedSize(true);
+		this.listView.setLayoutManager(new GridLayoutManager(context, context.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE ? 2 : 1, GridLayoutManager.VERTICAL, false));
+
 		this.swipeRefreshLayout = swipeRefreshLayout;
 		this.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener()
 		{
@@ -108,8 +114,7 @@ public class DataHandler
 			controls = parseControls(jsonArray);
 		}
 
-		ControlContainerAdapter adapter = new ControlContainerAdapter(context, R.layout.control_row, controls);
-		listView.setAdapter(adapter);
+		listView.setAdapter(new ControlContainerAdapter(context, controls));
 		swipeRefreshLayout.setRefreshing(false);
 	}
 

@@ -1,16 +1,18 @@
 package cz.jiriskorpil.amixerwebui.activity;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ListView;
 
 import cz.jiriskorpil.amixerwebui.R;
 
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
 		dataHandler = (new DataHandler(this,
-					(ListView) findViewById(R.id.controls_list),
+					(RecyclerView) findViewById(R.id.controls_list),
 					(SwipeRefreshLayout) findViewById(R.id.swipe_container)))
 				.setOnFailListener(new DataHandler.OnFailListener()
 				{
@@ -55,6 +57,18 @@ public class MainActivity extends AppCompatActivity
 				})
 				.download();
 		lastUrl = dataHandler.getBaseUrl();
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public void onConfigurationChanged(Configuration newConfig)
+	{
+		super.onConfigurationChanged(newConfig);
+
+		GridLayoutManager manager = (GridLayoutManager) ((RecyclerView) findViewById(R.id.controls_list)).getLayoutManager();
+		manager.setSpanCount(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE ? 2 : 1);
 	}
 
 	/**

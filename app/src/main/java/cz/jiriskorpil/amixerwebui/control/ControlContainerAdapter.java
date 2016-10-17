@@ -2,10 +2,10 @@ package cz.jiriskorpil.amixerwebui.control;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -26,11 +26,10 @@ import cz.jiriskorpil.amixerwebui.task.ToggleControlHttpRequestTask;
 /**
  * List adapter for control container.
  */
-public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
+public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContainerAdapter.ControlContainerHolder>
 {
-	Context context;
-	int layoutResourceId;
-	List<ControlContainer> data = null;
+	private Context context;
+	private List<ControlContainer> data = null;
 
 	private static final float FULL_VISIBILITY = 1;
 	private static final float LOW_VISIBILITY = (float) 0.4;
@@ -38,44 +37,36 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	/**
 	 *
 	 * @param context          The context to use. Usually {@link android.app.Activity} object.
-	 * @param layoutResourceId GUI element for rendering
 	 * @param data             list of controls
 	 */
-	public ControlContainerAdapter(Context context, int layoutResourceId, List<ControlContainer> data)
+	public ControlContainerAdapter(Context context, List<ControlContainer> data)
 	{
-		super(context, layoutResourceId, data);
 		this.context = context;
-		this.layoutResourceId = layoutResourceId;
 		this.data = data;
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent)
+	public int getItemCount()
 	{
-		View row = convertView;
-		ControlContainerHolder holder;
+		return data.size();
+	}
 
-		if (row == null)
-		{
-			LayoutInflater inflater = ((Activity) context).getLayoutInflater();
-			row = inflater.inflate(layoutResourceId, parent, false);
+	@Override
+	public void onBindViewHolder(ControlContainerHolder holder, int i)
+	{
+		ControlContainer container = data.get(i);
 
-			holder = new ControlContainerHolder();
-			holder.enabled = (Switch) row.findViewById(R.id.enabled);
-			holder.name = (TextView) row.findViewById(R.id.name);
-			holder.bind_sliders = (CheckBox) row.findViewById(R.id.bind_sliders);
-			holder.source_list = (RadioGroup) row.findViewById(R.id.source_list);
-			holder.channels_list = (LinearLayout) row.findViewById(R.id.channels_list);
+		setupCard(container, holder);
+	}
 
-			row.setTag(holder);
+	@Override
+	public ControlContainerHolder onCreateViewHolder(ViewGroup viewGroup, int i)
+	{
+		View itemView = LayoutInflater
+							.from(viewGroup.getContext())
+							.inflate(R.layout.control_row, viewGroup, false);
 
-		} else {
-			holder = (ControlContainerHolder) row.getTag();
-		}
-
-		setupCard(data.get(position), holder, row);
-
-		return row;
+		return new ControlContainerHolder(itemView);
 	}
 
 	/**
@@ -83,14 +74,13 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	 *
 	 * @param container control container
 	 * @param holder    control container holder
-	 * @param row       GUI row View
 	 */
-	private void setupCard(ControlContainer container, ControlContainerHolder holder, View row)
+	private void setupCard(ControlContainer container, ControlContainerHolder holder)
 	{
 		setupCardHeader(container, holder);
 
 		setupCardBodySource(container, holder);
-		setupCardBodyChannels(container, holder, row);
+		setupCardBodyChannels(container, holder);
 
 		setCardBodyAlpha(container, holder);
 	}
@@ -127,7 +117,7 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	{
 		container.getSwitch().setChecked(isChecked);
 		setCardBodyAlpha(container, holder);
-		new ToggleControlHttpRequestTask(getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
+		new ToggleControlHttpRequestTask(holder.getView().getContext(), ((MainActivity) holder.getView().getContext()).getDataHandler().getBaseUrl())
 				.execute(String.valueOf(container.getSwitch().getId()), container.getSwitch().isChecked() ? "1" : "0");
 	}
 
@@ -174,8 +164,8 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 				@Override
 				public boolean onLongClick(View v)
 				{
-					Toast.makeText(getContext(),
-							getContext().getResources().getString(holder.bind_sliders.isChecked() ? R.string.bound_sliders : R.string.unbounded_sliders),
+					Toast.makeText(holder.getView().getContext(),
+							holder.getView().getContext().getResources().getString(holder.bind_sliders.isChecked() ? R.string.bound_sliders : R.string.unbounded_sliders),
 							Toast.LENGTH_LONG).show();
 					return true;
 				}
@@ -200,8 +190,8 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 			holder.source_list.check(0);
 			for (int i = 0; i < container.getSource().getItems().length; i++)
 			{
-				final RadioButton button = new RadioButton(getContext());
-				button.setId(i);
+				final RadioButton button = new RadioButton(holder.getView().getContext());
+				button.setId(i + 1);
 				button.setText(container.getSource().getItems()[i]);
 				button.setOnClickListener(new View.OnClickListener()
 				{
@@ -209,13 +199,13 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 					public void onClick(View v)
 					{
 						container.getSource().setValue(holder.source_list.getCheckedRadioButtonId());
-						new ChangeSourceHttpRequestTask(getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
+						new ChangeSourceHttpRequestTask(holder.getView().getContext(), ((MainActivity) holder.getView().getContext()).getDataHandler().getBaseUrl())
 								.execute(String.valueOf(container.getSource().getId()), String.valueOf(button.getId()));
 					}
 				});
 				holder.source_list.addView(button);
 			}
-			holder.source_list.check(container.getSource().getValue());
+			holder.source_list.check(container.getSource().getValue() + 1);
 		} else {
 			holder.source_list.setVisibility(View.INVISIBLE);
 		}
@@ -226,16 +216,15 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	 *
 	 * @param container control container
 	 * @param holder    control container holder
-	 * @param row       GUI row View
 	 */
-	private void setupCardBodyChannels(final ControlContainer container, final ControlContainerHolder holder, View row)
+	private void setupCardBodyChannels(final ControlContainer container, final ControlContainerHolder holder)
 	{
 		holder.channels_list.removeAllViews();
 		if (container.hasVolumeControl())
 		{
 			for (int i = 0; i < container.getVolume().getChannels().length; i++)
 			{
-				LinearLayout channelLayout = (LinearLayout) row.findViewById(R.id.control_channel);
+				LinearLayout channelLayout = (LinearLayout) holder.getView().findViewById(R.id.control_channel);
 				View channelView = ((Activity) context).getLayoutInflater().inflate(R.layout.control_channel, channelLayout, false);
 				holder.channels_list.addView(channelView, i);
 
@@ -248,14 +237,14 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 				channel_name.setText(channel.getName());
 				channel_volume_seek_bar.setMax(channel.getControl().getMax());
 				channel_volume_seek_bar.setProgress(channel.getValue());
-				channel_volume.setText(getContext().getString(R.string.channel_value, Math.round(100 * (double) channel.getValue() / channel.getControl().getMax())));
+				channel_volume.setText(holder.getView().getContext().getString(R.string.channel_value, Math.round(100 * (double) channel.getValue() / channel.getControl().getMax())));
 
 				channel_volume_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
 				{
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 					{
-						String progressMsg = getContext().getString(R.string.channel_value, Math.round(100 * progress / seekBar.getMax()));
+						String progressMsg = holder.getView().getContext().getString(R.string.channel_value, Math.round(100 * progress / seekBar.getMax()));
 						if (fromUser && holder.bind_sliders.isChecked()) {
 							for (int i = 0; i < container.getVolume().getChannels().length; i++) {
 								if (!holder.channels_list.getChildAt(i).equals(seekBar))
@@ -292,7 +281,7 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 							}
 							volumes += String.valueOf(container.getVolume().getChannels()[i].getValue());
 						}
-						new ChangeVolumeHttpRequestTask(getContext(), ((MainActivity) getContext()).getDataHandler().getBaseUrl())
+						new ChangeVolumeHttpRequestTask(holder.getView().getContext(), ((MainActivity) holder.getView().getContext()).getDataHandler().getBaseUrl())
 								.execute(String.valueOf(container.getVolume().getId()), volumes);
 					}
 				});
@@ -303,12 +292,31 @@ public class ControlContainerAdapter extends ArrayAdapter<ControlContainer>
 	/**
 	 * Holds ControlContainer GUI controls.
 	 */
-	static class ControlContainerHolder
+	static class ControlContainerHolder extends RecyclerView.ViewHolder
 	{
+		View v;
+
 		Switch enabled;
 		TextView name;
 		CheckBox bind_sliders;
 		RadioGroup source_list;
 		LinearLayout channels_list;
+
+		ControlContainerHolder(View v)
+		{
+			super(v);
+			this.v = v;
+			enabled = (Switch) v.findViewById(R.id.enabled);
+			name = (TextView) v.findViewById(R.id.name);
+			bind_sliders = (CheckBox) v.findViewById(R.id.bind_sliders);
+			source_list = (RadioGroup) v.findViewById(R.id.source_list);
+			channels_list = (LinearLayout) v.findViewById(R.id.channels_list);
+		}
+
+
+		public View getView()
+		{
+			return v;
+		}
 	}
 }

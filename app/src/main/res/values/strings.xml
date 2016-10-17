@@ -8,8 +8,8 @@
 	<string name="msg_connection_error">Connection failed!</string>
 	<string name="retry_btn_title">RETRY</string>
 
-	<string name="bound_sliders">Channel sliders are bound.</string>
-	<string name="unbounded_sliders">Channel sliders aren\'t bound.</string>
+	<string name="bound_sliders">Channel sliders are locked together.</string>
+	<string name="unbounded_sliders">Channel sliders are unlocked.</string>
 	<string name="channel_value">%1$d %%</string>
 
 

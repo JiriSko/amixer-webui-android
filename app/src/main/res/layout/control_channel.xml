@@ -4,10 +4,10 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:orientation="horizontal"
-	android:paddingLeft="8dp"
-	android:paddingRight="8dp"
-	android:paddingTop="4dp"
-	android:paddingBottom="4dp">
+	android:paddingLeft="@dimen/channelHorizontalPadding"
+	android:paddingRight="@dimen/channelHorizontalPadding"
+	android:paddingTop="@dimen/channelVerticalPadding"
+	android:paddingBottom="@dimen/channelVerticalPadding">
 
 	<TextView
 		android:id="@+id/channel_name"

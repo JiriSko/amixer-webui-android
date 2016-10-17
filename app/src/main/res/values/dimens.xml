@@ -3,4 +3,9 @@
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>
 	<dimen name="fab_margin">16dp</dimen>
+
+	<dimen name="controlCardMargin">4dp</dimen>
+	<dimen name="controlCardPadding">8dp</dimen>
+	<dimen name="channelHorizontalPadding">8dp</dimen>
+	<dimen name="channelVerticalPadding">4dp</dimen>
 </resources>
