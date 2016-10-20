@@ -12,7 +12,7 @@ Android client for control ALSA volume on remote server using [ALSA Mixer WebUI]
 
 ## Usage
 
-- Install from [latest APK](releases/download/v0.1.1/amixer-webui-v0.1.1.apk), or
+- Install from [latest APK](https://github.com/JiriSko/amixer-webui-android/releases/download/v0.1.1/amixer-webui-v0.1.1.apk), or
 - Build from source code
 
 ## License
