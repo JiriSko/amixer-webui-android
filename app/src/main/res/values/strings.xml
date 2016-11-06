@@ -12,6 +12,8 @@
 	<string name="unbounded_sliders">Channel sliders are unlocked.</string>
 	<string name="channel_value">%1$d %%</string>
 
+	<string name="sound_card">Sound card</string>
+
 
 	<!-- Strings related to Settings -->
 

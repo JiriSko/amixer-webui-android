@@ -4,15 +4,23 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import cz.jiriskorpil.amixerwebui.R;
@@ -23,7 +31,11 @@ import cz.jiriskorpil.amixerwebui.control.ControlContainerType;
 import cz.jiriskorpil.amixerwebui.control.ControlFactory;
 import cz.jiriskorpil.amixerwebui.control.mixer.MixerControl;
 import cz.jiriskorpil.amixerwebui.task.AsyncHttpRequestTask;
+import cz.jiriskorpil.amixerwebui.task.ChangeCardHttpRequestTask;
+import cz.jiriskorpil.amixerwebui.task.RetrieveCardHttpRequestTask;
+import cz.jiriskorpil.amixerwebui.task.RetrieveCardsHttpRequestTask;
 import cz.jiriskorpil.amixerwebui.task.RetrieveControlsHttpRequestTask;
+import cz.jiriskorpil.amixerwebui.task.RetrieveHostnameHttpRequestTask;
 
 /**
  * Class which supplies (main) activity with data.
@@ -37,6 +49,10 @@ public class DataHandler
 	private RecyclerView listView;
 	private SwipeRefreshLayout swipeRefreshLayout;
 	private List<ControlContainer> controls;
+
+	private boolean downloadEnabled = true;
+	private String lastUrl = "";
+	private String cardId = "";
 
 	/**
 	 * @param context            The context to use. Usually {@link android.app.Activity} object.
@@ -68,6 +84,9 @@ public class DataHandler
 	 */
 	public DataHandler download()
 	{
+		if (!downloadEnabled) return this;
+		downloadEnabled = false;
+
 		swipeRefreshLayout.post(new Runnable()
 		{
 			@Override
@@ -80,15 +99,96 @@ public class DataHandler
 					public void onFinish(String result)
 					{
 						try {
+							downloadEnabled = true;
+							lastUrl = getBaseUrl();
 							displayData(result.equals("") ? null : new JSONArray(result));
 						} catch (JSONException e) {
 							Log.e("JSONException", "Error: " + e.toString());
 						}
 					}
 				}).execute();
+
+				if (!lastUrl.equals(getBaseUrl())) {
+					cardId = "";
+					setupSoundCards();
+				}
 			}
 		});
 		return this;
+	}
+
+	private void setupSoundCards()
+	{
+		final MainActivity activity = (MainActivity) context;
+		activity.getSupportActionBar().setSubtitle("");
+
+		new RetrieveHostnameHttpRequestTask(context, getBaseUrl(), new AsyncHttpRequestTask.OnFinishListener() {
+			@Override
+			public void onFinish(String result) {
+				activity.getSupportActionBar().setSubtitle(result);
+			}
+		}).execute();
+
+		final MenuItem soundCard = activity.menu.findItem(R.id.action_card);
+		soundCard.setVisible(false);
+		new RetrieveCardsHttpRequestTask(context, getBaseUrl(), new AsyncHttpRequestTask.OnFinishListener() {
+			@Override
+			public void onFinish(String result) {
+				try {
+					JSONObject cards = (JSONObject) (new JSONArray("[" + result + "]")).get(0);
+
+					if (cards.length() > 1) {
+						soundCard.setVisible(true);
+
+						final List<String> cardIds = new ArrayList<>();
+						List<String> cardNames = new ArrayList<>();
+
+						Iterator<String> iter = cards.keys();
+						while (iter.hasNext()) {
+							String id = iter.next();
+							cardNames.add((String) cards.get(id));
+							cardIds.add(id);
+						}
+
+						final Spinner spinner = (Spinner) MenuItemCompat.getActionView(soundCard);
+						ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.spinner_item, cardNames);
+						adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
+						spinner.setAdapter(adapter);
+
+						spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+							@Override
+							public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
+								if (cardId.equals(cardIds.get(i)) || cardId.equals("")) {
+									return;
+								}
+
+								(new ChangeCardHttpRequestTask(context, getBaseUrl(), new AsyncHttpRequestTask.OnFinishListener() {
+									@Override
+									public void onFinish(String result) {
+										download();
+									}
+								})).execute(cardIds.get(i));
+								cardId = cardIds.get(i);
+							}
+
+							@Override
+							public void onNothingSelected(AdapterView<?> adapterView) {
+							}
+						});
+
+						new RetrieveCardHttpRequestTask(context, getBaseUrl(), new AsyncHttpRequestTask.OnFinishListener() {
+							@Override
+							public void onFinish(String result) {
+								cardId = result;
+								spinner.setSelection(cardIds.indexOf(result), false);
+							}
+						}).execute();
+					}
+				} catch (JSONException e) {
+					Log.e("JSONException", "Error: " + e.toString());
+				}
+			}
+		}).execute();
 	}
 
 	public DataHandler setOnFailListener(OnFailListener listener)
@@ -109,6 +209,8 @@ public class DataHandler
 		if (jsonArray == null) {
 			if (mOnFailListener != null) {
 				mOnFailListener.onFail();
+				lastUrl = "";
+				cardId = "";
 			}
 		} else {
 			controls = parseControls(jsonArray);

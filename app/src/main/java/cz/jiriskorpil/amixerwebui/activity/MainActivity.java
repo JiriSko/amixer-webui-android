@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity
 {
 	private DataHandler dataHandler;
 	private String lastUrl;
+	protected Menu menu;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu)
 	{
+		this.menu = menu;
 		getMenuInflater().inflate(R.menu.menu_main, menu);
 		return true;
 	}

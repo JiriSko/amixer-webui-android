@@ -9,6 +9,8 @@
 	<string name="bound_sliders">Kanály jsou uzamčeny.</string>
 	<string name="unbounded_sliders">Kanály jsou odemčeny.</string>
 
+	<string name="sound_card">Zvuková karta</string>
+
 
 	<!-- Strings related to Settings -->
 

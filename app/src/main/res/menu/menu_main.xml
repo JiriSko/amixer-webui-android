@@ -4,6 +4,13 @@
 	tools:context=".activity.MainActivity">
 
 	<item
+		android:id="@+id/action_card"
+		android:title="@string/sound_card"
+		android:visible="true"
+		app:actionViewClass="android.widget.Spinner"
+		app:showAsAction="always" />
+
+	<item
 		android:id="@+id/action_settings"
 		android:orderInCategory="100"
 		android:title="@string/action_settings"
