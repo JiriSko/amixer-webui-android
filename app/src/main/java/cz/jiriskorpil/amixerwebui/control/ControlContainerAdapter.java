@@ -3,6 +3,7 @@ package cz.jiriskorpil.amixerwebui.control;
 import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -296,7 +296,7 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 	{
 		View v;
 
-		Switch enabled;
+		SwitchCompat enabled;
 		TextView name;
 		CheckBox bind_sliders;
 		RadioGroup source_list;
@@ -306,7 +306,7 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 		{
 			super(v);
 			this.v = v;
-			enabled = (Switch) v.findViewById(R.id.enabled);
+			enabled = (SwitchCompat) v.findViewById(R.id.enabled);
 			name = (TextView) v.findViewById(R.id.name);
 			bind_sliders = (CheckBox) v.findViewById(R.id.bind_sliders);
 			source_list = (RadioGroup) v.findViewById(R.id.source_list);

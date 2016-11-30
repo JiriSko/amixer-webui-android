@@ -55,8 +55,7 @@ public class MainActivity extends AppCompatActivity
 								}).setActionTextColor(ContextCompat.getColor(getBaseContext(), R.color.colorPrimaryLight))
 								.show();
 					}
-				})
-				.download();
+				});
 		lastUrl = dataHandler.getBaseUrl();
 	}
 
@@ -100,6 +99,9 @@ public class MainActivity extends AppCompatActivity
 	{
 		this.menu = menu;
 		getMenuInflater().inflate(R.menu.menu_main, menu);
+
+		dataHandler.download();
+
 		return true;
 	}
 
