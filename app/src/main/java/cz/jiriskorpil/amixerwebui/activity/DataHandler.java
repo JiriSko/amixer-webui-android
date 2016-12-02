@@ -135,7 +135,7 @@ public class DataHandler
 			@Override
 			public void onFinish(String result) {
 				try {
-					JSONObject cards = (JSONObject) (new JSONArray("[" + result + "]")).get(0);
+					JSONObject cards = result.equals("[]") ?  new JSONObject() : (JSONObject) (new JSONArray("[" + result + "]")).get(0);
 
 					if (cards.length() > 1) {
 						soundCard.setVisible(true);
