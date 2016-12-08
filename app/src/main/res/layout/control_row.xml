@@ -47,6 +47,7 @@
 				android:layout_alignParentRight="true"
 				android:layout_centerVertical="true"
 				android:buttonTint="@android:color/white"
+				android:theme="@style/WhiteCheck"
 				android:checked="true"
 				android:text="" />
 		</RelativeLayout>

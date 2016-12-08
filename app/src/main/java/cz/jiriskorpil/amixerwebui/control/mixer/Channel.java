@@ -8,9 +8,9 @@ import cz.jiriskorpil.amixerwebui.control.IIntegerControl;
  */
 public class Channel implements IChannel
 {
-	IIntegerControl control;
-	String name;
-	int value;
+	private IIntegerControl control;
+	private String name;
+	private int value;
 
 	/**
 	 * Creates new channel instance.

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/equalizer_channel"
+              android:layout_width="wrap_content"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+	<com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent">
+		<com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBar
+			android:id="@id/channel_volume_seek_bar"
+			android:layout_width="0dp"
+			android:layout_height="0dp"
+			android:splitTrack="false"
+			app:seekBarRotation="CW270"/>
+	</com.h6ah4i.android.widget.verticalseekbar.VerticalSeekBarWrapper>
+
+</LinearLayout>

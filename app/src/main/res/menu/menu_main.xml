@@ -1,10 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
 	tools:context=".activity.MainActivity">
 
 	<item
+		android:id="@+id/action_equalizer"
+		android:orderInCategory="80"
+		android:title="@string/equalizer"
+		android:icon="@drawable/ic_equalizer_white_24dp"
+		android:visible="false"
+		app:showAsAction="ifRoom" />
+
+	<item
 		android:id="@+id/action_card"
+		android:orderInCategory="90"
 		android:title="@string/sound_card"
 		android:visible="true"
 		app:actionViewClass="android.widget.Spinner"

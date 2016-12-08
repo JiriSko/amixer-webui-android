@@ -6,10 +6,12 @@
 	<string name="msg_connection_error">Spojení selhalo!</string>
 	<string name="retry_btn_title">Opakovat</string>
 
-	<string name="bound_sliders">Kanály jsou uzamčeny.</string>
-	<string name="unbounded_sliders">Kanály jsou odemčeny.</string>
+	<string name="lock_sliders">Uzamknout posuvníky</string>
+	<string name="sliders_locked">Kanály jsou uzamčeny.</string>
+	<string name="sliders_unlocked">Kanály jsou odemčeny.</string>
 
 	<string name="sound_card">Zvuková karta</string>
+	<string name="equalizer">Ekvalizér</string>
 
 
 	<!-- Strings related to Settings -->

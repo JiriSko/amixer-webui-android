@@ -22,7 +22,7 @@ public class ChangeCardHttpRequestTask extends AsyncHttpRequestTask
 	 * {@inheritDoc}
 	 * Sends request to change card.
 	 *
-	 * @param params first parameter is card id,
+	 * @param params first parameter is card id
 	 */
 	@Override
 	protected String doInBackground(String... params)

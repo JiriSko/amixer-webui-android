@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/equalizer_channel"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="horizontal">
+
+	<SeekBar
+		android:id="@+id/channel_volume_seek_bar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:clickable="false"/>
+
+</LinearLayout>

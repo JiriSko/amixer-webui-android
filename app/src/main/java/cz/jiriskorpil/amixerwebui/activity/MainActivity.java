@@ -21,6 +21,8 @@ import cz.jiriskorpil.amixerwebui.R;
  */
 public class MainActivity extends AppCompatActivity
 {
+	public static final int EQUALIZER_REQUEST = 1;
+
 	private DataHandler dataHandler;
 	private String lastUrl;
 	protected Menu menu;
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity
 								.show();
 					}
 				});
-		lastUrl = dataHandler.getBaseUrl();
+		lastUrl = DataHandler.getBaseUrl(this);
 	}
 
 	/**
@@ -79,16 +81,11 @@ public class MainActivity extends AppCompatActivity
 	{
 		super.onResume();
 
-		if (!lastUrl.equals(dataHandler.getBaseUrl()))
+		if (!lastUrl.equals(DataHandler.getBaseUrl(this)))
 		{
 			dataHandler.download();
-			lastUrl = dataHandler.getBaseUrl();
+			lastUrl = DataHandler.getBaseUrl(this);
 		}
-	}
-
-	public DataHandler getDataHandler()
-	{
-		return dataHandler;
 	}
 
 	/**
@@ -118,8 +115,28 @@ public class MainActivity extends AppCompatActivity
 			case R.id.action_settings:
 				startActivity(new Intent(this, SettingsActivity.class));
 				return true;
+
+			case R.id.action_equalizer:
+				Intent intent = new Intent(this, EqualizerActivity.class);
+				intent.putExtra("equalizer", dataHandler.getEqualizer());
+				startActivityForResult(intent, EQUALIZER_REQUEST);
+				return true;
 		}
 
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data)
+	{
+		switch (requestCode)
+		{
+			case EQUALIZER_REQUEST:
+				dataHandler.setupEqualizer();
+				break;
+
+			default:
+				super.onActivityResult(requestCode, resultCode, data);
+		}
 	}
 }

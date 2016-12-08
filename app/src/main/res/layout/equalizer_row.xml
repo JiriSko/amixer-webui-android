@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/channelHorizontalPadding"
+                android:paddingRight="@dimen/channelHorizontalPadding">
+
+	<TextView
+		android:id="@+id/channel_name"
+		android:layout_width="50dp"
+		android:layout_height="wrap_content"
+		android:layout_alignBottom="@id/channels_list"
+		android:layout_alignTop="@id/channels_list"
+		android:gravity="center|end"/>
+
+	<LinearLayout
+		android:id="@+id/channels_list"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="@dimen/controlCardMargin"
+		android:layout_toEndOf="@id/channel_name"
+		android:layout_toRightOf="@id/channel_name"
+		android:background="@android:color/white"
+		android:orientation="vertical"
+		android:paddingBottom="@dimen/channelVerticalPadding"
+		android:paddingTop="@dimen/channelVerticalPadding"/>
+
+</RelativeLayout>

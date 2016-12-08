@@ -8,11 +8,13 @@
 	<string name="msg_connection_error">Connection failed!</string>
 	<string name="retry_btn_title">RETRY</string>
 
-	<string name="bound_sliders">Channel sliders are locked together.</string>
-	<string name="unbounded_sliders">Channel sliders are unlocked.</string>
+	<string name="lock_sliders">Lock sliders</string>
+	<string name="sliders_locked">Channel sliders are locked together.</string>
+	<string name="sliders_unlocked">Channel sliders are unlocked.</string>
 	<string name="channel_value">%1$d %%</string>
 
 	<string name="sound_card">Sound card</string>
+	<string name="equalizer">Equalizer</string>
 
 
 	<!-- Strings related to Settings -->

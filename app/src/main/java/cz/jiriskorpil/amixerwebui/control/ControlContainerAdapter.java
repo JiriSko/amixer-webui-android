@@ -18,7 +18,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import cz.jiriskorpil.amixerwebui.R;
-import cz.jiriskorpil.amixerwebui.activity.MainActivity;
+import cz.jiriskorpil.amixerwebui.activity.DataHandler;
 import cz.jiriskorpil.amixerwebui.task.ChangeSourceHttpRequestTask;
 import cz.jiriskorpil.amixerwebui.task.ChangeVolumeHttpRequestTask;
 import cz.jiriskorpil.amixerwebui.task.ToggleControlHttpRequestTask;
@@ -35,7 +35,6 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 	private static final float LOW_VISIBILITY = (float) 0.4;
 
 	/**
-	 *
 	 * @param context          The context to use. Usually {@link android.app.Activity} object.
 	 * @param data             list of controls
 	 */
@@ -117,7 +116,7 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 	{
 		container.getSwitch().setChecked(isChecked);
 		setCardBodyAlpha(container, holder);
-		new ToggleControlHttpRequestTask(holder.getView().getContext(), ((MainActivity) holder.getView().getContext()).getDataHandler().getBaseUrl())
+		new ToggleControlHttpRequestTask(holder.getView().getContext(), DataHandler.getBaseUrl(holder.getView().getContext()))
 				.execute(String.valueOf(container.getSwitch().getId()), container.getSwitch().isChecked() ? "1" : "0");
 	}
 
@@ -165,7 +164,7 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 				public boolean onLongClick(View v)
 				{
 					Toast.makeText(holder.getView().getContext(),
-							holder.getView().getContext().getResources().getString(holder.bind_sliders.isChecked() ? R.string.bound_sliders : R.string.unbounded_sliders),
+							holder.getView().getContext().getResources().getString(holder.bind_sliders.isChecked() ? R.string.sliders_locked : R.string.sliders_unlocked),
 							Toast.LENGTH_LONG).show();
 					return true;
 				}
@@ -199,7 +198,7 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 					public void onClick(View v)
 					{
 						container.getSource().setValue(holder.source_list.getCheckedRadioButtonId());
-						new ChangeSourceHttpRequestTask(holder.getView().getContext(), ((MainActivity) holder.getView().getContext()).getDataHandler().getBaseUrl())
+						new ChangeSourceHttpRequestTask(holder.getView().getContext(), DataHandler.getBaseUrl(holder.getView().getContext()))
 								.execute(String.valueOf(container.getSource().getId()), String.valueOf(button.getId()));
 					}
 				});
@@ -281,7 +280,7 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 							}
 							volumes += String.valueOf(container.getVolume().getChannels()[i].getValue());
 						}
-						new ChangeVolumeHttpRequestTask(holder.getView().getContext(), ((MainActivity) holder.getView().getContext()).getDataHandler().getBaseUrl())
+						new ChangeVolumeHttpRequestTask(holder.getView().getContext(), DataHandler.getBaseUrl(holder.getView().getContext()))
 								.execute(String.valueOf(container.getVolume().getId()), volumes);
 					}
 				});
