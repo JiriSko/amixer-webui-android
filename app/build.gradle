@@ -1,15 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 27
+    buildToolsVersion "26.0.2"
 
     defaultConfig {
         applicationId "cz.jiriskorpil.amixerwebui"
         minSdkVersion 15
-        targetSdkVersion 25
-        versionCode 6
-        versionName "0.3.0"
+        targetSdkVersion 27
+        versionCode 7
+        versionName "0.3.1"
     }
     buildTypes {
         release {
@@ -19,7 +19,7 @@ android {
     }
 }
 
-ext.supportLibraryVersion = '25.0.+'
+ext.supportLibraryVersion = '27.0.2'
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
