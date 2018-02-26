@@ -4,6 +4,9 @@
 
 Android client for control ALSA volume on remote server using [ALSA Mixer WebUI](https://github.com/JiriSko/amixer-webui/).
 
+<a href="https://f-droid.org/packages/cz.jiriskorpil.amixerwebui/" target="_blank">
+<img src="https://f-droid.org/badge/get-it-on.png" alt="Get it on F-Droid" height="80"/></a>
+
 [![Screenshot](screenshot.png)](screenshot.png)
 
 ## Supported version
