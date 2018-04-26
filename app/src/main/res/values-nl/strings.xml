@@ -1,0 +1,37 @@
+<resources>
+	<string name="app_name">ALSA Mixer WebUI</string>
+	<string name="action_settings">Instellingen</string>
+	<string name="title_activity_settings">Instellingen</string>
+	<string name="author">Jiří Škorpil</string>
+
+	<string name="msg_downloading_canceled">Downloaden geannuleerd</string>
+	<string name="msg_connection_error">Verbinding mislukt!</string>
+	<string name="retry_btn_title">Opnieuw proberen</string>
+
+	<string name="lock_sliders">Vergrendel schuifregelaars</string>
+	<string name="sliders_locked">Kanaal schuifregelaars zijn samen vergrendeld</string>
+	<string name="sliders_unlocked">Kanaal schuifregelaars zijn ontgrendeld</string>
+	<string name="channel_value">%1$d %%</string>
+
+	<string name="sound_card">Geluidskaart</string>
+	<string name="equalizer">Niveauregelaar</string>
+
+
+	<!-- Strings related to Settings -->
+
+	<!-- Example settings for Connection -->
+	<string name="pref_header_connection">Connectie</string>
+
+	<string name="pref_title_ip_address">IP adres</string>
+	<string name="pref_default_ip_address">192.168.1.5</string>
+
+	<string name="pref_title_port">Poort</string>
+	<string name="pref_default_port">8080</string>
+
+
+	<!-- Example settings for About -->
+	<string name="pref_header_about">Over</string>
+
+	<string name="pref_title_author">Auteur</string>
+	<string name="pref_title_version">Versie</string>
+</resources>
