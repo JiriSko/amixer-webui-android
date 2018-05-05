@@ -160,7 +160,7 @@ public class DataHandler
 							cardIds.add(id);
 						}
 
-						final Spinner spinner = (Spinner) MenuItemCompat.getActionView(soundCard);
+						final Spinner spinner = (Spinner) soundCard.getActionView();
 						ArrayAdapter<String> adapter = new ArrayAdapter<>(context, R.layout.spinner_item, cardNames);
 						adapter.setDropDownViewResource(R.layout.spinner_dropdown_item);
 						spinner.setAdapter(adapter);
