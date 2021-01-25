@@ -10,9 +10,11 @@ import java.util.List;
 
 import cz.jiriskorpil.amixerwebui.control.mixer.MixerControl;
 
-public class ControlParser
+public final class ControlParser
 {
 	private static List<ControlContainer> controls;
+
+	private ControlParser() {}
 
 	/**
 	 * Parses controls out of JSON array.

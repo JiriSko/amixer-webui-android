@@ -11,8 +11,10 @@ import cz.jiriskorpil.amixerwebui.control.mixer.MixerControlFactory;
  * Factory for create new control from JSON object
  */
 @SuppressWarnings("PMD.ClassNamingConventions")
-public class ControlFactory
+public final class ControlFactory
 {
+	private ControlFactory() {}
+
 	/**
 	 * Creates control instance.
 	 *
