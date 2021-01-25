@@ -74,8 +74,9 @@ public class EqualizerAdapter extends RecyclerView.Adapter<EqualizerAdapter.View
 	 */
 	private void setupEqualizerRow(ControlContainer controlContainer, final ViewHolder holder)
 	{
-		if (!controlContainer.hasVolumeControl())
+		if (!controlContainer.hasVolumeControl()) {
 			return;
+		}
 
 		holder.channelsList.removeAllViews();
 
@@ -129,7 +130,7 @@ public class EqualizerAdapter extends RecyclerView.Adapter<EqualizerAdapter.View
 					String volumes = "";
 					for (int i = 0; i < volume.getChannels().length; i++)
 					{
-						if (!volumes.equals("")) {
+						if (!"".equals(volumes)) {
 							volumes += "/";
 						}
 						volumes += String.valueOf(volume.getChannels()[i].getValue());

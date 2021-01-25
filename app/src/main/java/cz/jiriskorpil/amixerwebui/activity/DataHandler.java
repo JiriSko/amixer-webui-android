@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -84,7 +83,9 @@ public class DataHandler
 	 */
 	DataHandler download()
 	{
-		if (!downloadEnabled) return this;
+		if (!downloadEnabled) {
+			return this;
+		}
 		downloadEnabled = false;
 
 		swipeRefreshLayout.post(new Runnable()
@@ -102,7 +103,7 @@ public class DataHandler
 						{
 							downloadEnabled = true;
 							lastUrl = getBaseUrl(context);
-							displayData(result.equals("") ? null : new JSONArray(result));
+							displayData("".equals(result) ? null : new JSONArray(result));
 						} catch (JSONException e) {
 							Log.e("JSONException", "Error: " + e.toString());
 						}
@@ -145,7 +146,7 @@ public class DataHandler
 			public void onFinish(String result) {
 				try
 				{
-					JSONObject cards = result.equals("[]") ?  new JSONObject() : (JSONObject) (new JSONArray("[" + result + "]")).get(0);
+					JSONObject cards = "[]".equals(result) ?  new JSONObject() : (JSONObject) (new JSONArray("[" + result + "]")).get(0);
 
 					if (cards.length() > 1) {
 						soundCard.setVisible(true);
@@ -168,7 +169,7 @@ public class DataHandler
 						spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 							@Override
 							public void onItemSelected(AdapterView<?> adapterView, View view, final int i, long l) {
-								if (cardId.equals(cardIds.get(i)) || cardId.equals("")) {
+								if (cardId.equals(cardIds.get(i)) || "".equals(cardId)) {
 									return;
 								}
 

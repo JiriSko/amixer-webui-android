@@ -35,9 +35,9 @@ public class MainActivity extends AppCompatActivity
 
 		setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-		dataHandler = (new DataHandler(this,
+		dataHandler = new DataHandler(this,
 					(RecyclerView) findViewById(R.id.controls_list),
-					(SwipeRefreshLayout) findViewById(R.id.swipe_container)))
+					(SwipeRefreshLayout) findViewById(R.id.swipe_container))
 				.setOnFailListener(new DataHandler.OnFailListener()
 				{
 					@Override

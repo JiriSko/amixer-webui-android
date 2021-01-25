@@ -275,7 +275,7 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 						String volumes = "";
 						for (int i = 0; i < container.getVolume().getChannels().length; i++)
 						{
-							if (!volumes.equals("")) {
+							if (!"".equals(volumes)) {
 								volumes += "/";
 							}
 							volumes += String.valueOf(container.getVolume().getChannels()[i].getValue());

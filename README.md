@@ -1,6 +1,6 @@
 # ALSA Mixer WebUI for Android
 
-[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Translate - with Stringlate](https://img.shields.io/badge/translate%20with-stringlate-green.svg)](https://lonamiwebs.github.io/stringlate/translate?git=https%3A%2F%2Fgithub.com%2FJiriSko%2Famixer-webui-android)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)](LICENSE) [![Translate - with Stringlate](https://img.shields.io/badge/translate%20with-stringlate-green.svg)](https://lonamiwebs.github.io/stringlate/translate?git=https%3A%2F%2Fgithub.com%2FJiriSko%2Famixer-webui-android) [![Codeac](https://static.codeac.io/badges/2-71501879.svg "Codeac")](https://app.codeac.io/github/JiriSko/amixer-webui-android)
 
 Android client for control ALSA volume on remote server using [ALSA Mixer WebUI](https://github.com/JiriSko/amixer-webui/).
 

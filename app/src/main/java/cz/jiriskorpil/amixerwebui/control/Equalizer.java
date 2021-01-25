@@ -23,7 +23,7 @@ public class Equalizer implements Parcelable
 
 	public List<ControlContainer> getControls()
 	{
-		if (controls.size() == 0)
+		if (controls.isEmpty())
 		{
 			try {
 				controls = ControlParser.parse(new JSONArray(rawData));
