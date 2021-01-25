@@ -37,6 +37,7 @@ public class ControlContainer
 	 *
 	 * @param control control which should be added into container
 	 */
+	@SuppressWarnings("PMD.SwitchStmtsShouldHaveDefault")
 	public void addControl(Control control)
 	{
 		switch (ControlContainerType.fromName(control.getName()))

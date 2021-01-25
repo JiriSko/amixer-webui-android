@@ -121,11 +121,13 @@ public class MainActivity extends AppCompatActivity
 				intent.putExtra("equalizer", dataHandler.getEqualizer());
 				startActivityForResult(intent, EQUALIZER_REQUEST);
 				return true;
-		}
 
-		return super.onOptionsItemSelected(item);
+			default:
+				return super.onOptionsItemSelected(item);
+		}
 	}
 
+	@SuppressWarnings("PMD.MissingBreakInSwitch")
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data)
 	{

@@ -182,6 +182,7 @@ public class DataHandler
 								cardId = cardIds.get(i);
 							}
 
+							@SuppressWarnings("PMD.UncommentedEmptyMethodBody")
 							@Override
 							public void onNothingSelected(AdapterView<?> adapterView) {
 							}

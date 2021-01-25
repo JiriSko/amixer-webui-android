@@ -10,6 +10,7 @@ import cz.jiriskorpil.amixerwebui.control.mixer.MixerControlFactory;
 /**
  * Factory for create new control from JSON object
  */
+@SuppressWarnings("PMD.ClassNamingConventions")
 public class ControlFactory
 {
 	/**
@@ -26,8 +27,9 @@ public class ControlFactory
 			{
 				case MIXER:
 					return MixerControlFactory.createMixerControl(jsonObject);
+				default:
+					return new Control(jsonObject);
 			}
-			return new Control(jsonObject);
 		} catch (JSONException e) {
 			Log.e("JSONException", "Error: " + e.toString());
 		}

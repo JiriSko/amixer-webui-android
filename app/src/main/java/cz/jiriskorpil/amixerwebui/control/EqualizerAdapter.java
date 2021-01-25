@@ -119,6 +119,7 @@ public class EqualizerAdapter extends RecyclerView.Adapter<EqualizerAdapter.View
 					}
 				}
 
+				@SuppressWarnings("PMD.UncommentedEmptyMethodBody")
 				@Override
 				public void onStartTrackingTouch(SeekBar seekBar)
 				{

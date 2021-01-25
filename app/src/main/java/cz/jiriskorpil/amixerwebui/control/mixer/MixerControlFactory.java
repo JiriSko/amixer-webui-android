@@ -10,6 +10,7 @@ import cz.jiriskorpil.amixerwebui.control.ControlType;
 /**
  * Factory for create new mixer control from JSON object
  */
+@SuppressWarnings("PMD.ClassNamingConventions")
 public class MixerControlFactory
 {
 	/**
@@ -18,6 +19,7 @@ public class MixerControlFactory
 	 * @param jsonObject JSON object representing mixer control retrieved from server
 	 * @return new mixer control instance
 	 */
+	@SuppressWarnings("PMD.SwitchStmtsShouldHaveDefault")
 	public static MixerControl createMixerControl(JSONObject jsonObject)
 	{
 		try {

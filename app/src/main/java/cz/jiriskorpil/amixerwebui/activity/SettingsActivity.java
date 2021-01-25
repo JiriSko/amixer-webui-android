@@ -172,6 +172,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB)
 	public static class AboutFragment extends PreferenceFragment
 	{
+		@SuppressWarnings("PMD.EmptyCatchBlock")
 		@Override
 		public void onCreate(Bundle savedInstanceState)
 		{

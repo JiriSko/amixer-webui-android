@@ -26,7 +26,8 @@ public enum ControlType
 				return BOOLEAN;
 			case "INTEGER":
 				return INTEGER;
+			default:
+				return UNKNOWN;
 		}
-		return UNKNOWN;
 	}
 }

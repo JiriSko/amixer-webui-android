@@ -227,29 +227,29 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 				View channelView = ((Activity) context).getLayoutInflater().inflate(R.layout.control_channel, channelLayout, false);
 				holder.channels_list.addView(channelView, i);
 
-				TextView channel_name = (TextView) channelView.findViewById(R.id.channel_name);
-				SeekBar channel_volume_seek_bar = (SeekBar) channelView.findViewById(R.id.channel_volume_seek_bar);
-				final TextView channel_volume = (TextView) channelView.findViewById(R.id.channel_volume);
+				TextView channelName = (TextView) channelView.findViewById(R.id.channel_name);
+				SeekBar channelVolumeSeekBar = (SeekBar) channelView.findViewById(R.id.channel_volume_seek_bar);
+				final TextView channelVolume = (TextView) channelView.findViewById(R.id.channel_volume);
 
 				final IChannel channel = container.getVolume().getChannels()[i];
 
-				channel_name.setText(channel.getName());
-				channel_volume_seek_bar.setMax(channel.getControl().getMax());
-				channel_volume_seek_bar.setProgress(channel.getValue());
-				channel_volume.setText(holder.getView().getContext().getString(R.string.channel_value, Math.round(100 * (double) channel.getValue() / channel.getControl().getMax())));
+				channelName.setText(channel.getName());
+				channelVolumeSeekBar.setMax(channel.getControl().getMax());
+				channelVolumeSeekBar.setProgress(channel.getValue());
+				channelVolume.setText(holder.getView().getContext().getString(R.string.channel_value, Math.round(100 * (double) channel.getValue() / channel.getControl().getMax())));
 
-				channel_volume_seek_bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+				channelVolumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
 				{
 					@Override
 					public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
 					{
 						String progressMsg = holder.getView().getContext().getString(R.string.channel_value, Math.round(100 * progress / seekBar.getMax()));
 						if (fromUser && holder.bind_sliders.isChecked()) {
-							for (int i = 0; i < container.getVolume().getChannels().length; i++) {
-								if (!holder.channels_list.getChildAt(i).equals(seekBar))
+							for (int j = 0; j < container.getVolume().getChannels().length; j++) {
+								if (!holder.channels_list.getChildAt(j).equals(seekBar))
 								{
-									container.getVolume().getChannels()[i].setValue(progress);
-									View channelView = holder.channels_list.getChildAt(i);
+									container.getVolume().getChannels()[j].setValue(progress);
+									View channelView = holder.channels_list.getChildAt(j);
 									((SeekBar) channelView.findViewById(R.id.channel_volume_seek_bar))
 											.setProgress(progress);
 									((TextView) channelView.findViewById(R.id.channel_volume))
@@ -260,10 +260,11 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 						if (fromUser)
 						{
 							channel.setValue(progress);
-							channel_volume.setText(progressMsg);
+							channelVolume.setText(progressMsg);
 						}
 					}
 
+					@SuppressWarnings("PMD.UncommentedEmptyMethodBody")
 					@Override
 					public void onStartTrackingTouch(SeekBar seekBar)
 					{
@@ -273,12 +274,12 @@ public class ControlContainerAdapter extends RecyclerView.Adapter<ControlContain
 					public void onStopTrackingTouch(SeekBar seekBar)
 					{
 						String volumes = "";
-						for (int i = 0; i < container.getVolume().getChannels().length; i++)
+						for (int j = 0; j < container.getVolume().getChannels().length; j++)
 						{
 							if (!"".equals(volumes)) {
 								volumes += "/";
 							}
-							volumes += String.valueOf(container.getVolume().getChannels()[i].getValue());
+							volumes += String.valueOf(container.getVolume().getChannels()[j].getValue());
 						}
 						new ChangeVolumeHttpRequestTask(holder.getView().getContext(), DataHandler.getBaseUrl(holder.getView().getContext()))
 								.execute(String.valueOf(container.getVolume().getId()), volumes);

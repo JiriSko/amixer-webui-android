@@ -79,6 +79,7 @@ abstract public class AsyncHttpRequestTask extends android.os.AsyncTask<String, 
 	 * @param method    used method
 	 * @return downloaded data
 	 */
+	@SuppressWarnings("PMD.EmptyCatchBlock")
 	protected String downloadFromURL(String urlString, String method)
 	{
 		//System.out.println("[" + method + "] Accessing " + this.url + urlString);
@@ -99,6 +100,7 @@ abstract public class AsyncHttpRequestTask extends android.os.AsyncTask<String, 
 				result += (char) data;
 				data = in.read();
 			}
+			in.close();
 		} catch (Exception e) {
 			//e.printStackTrace();
 		} finally {

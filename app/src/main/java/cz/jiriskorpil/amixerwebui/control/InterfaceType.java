@@ -23,7 +23,8 @@ public enum InterfaceType
 				return MIXER;
 			case "PCM":
 				return PCM;
+			default:
+				return UNKNOWN;
 		}
-		return UNKNOWN;
 	}
 }
